@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    
+    <meta charset="UTF-8">
+    <title>FU88</title>
+    
+    <style>
+        /* 1. Hiệu ứng tưng tưng */
+        @keyframes bounceEffect {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+        }
+
+        /* 2. Hiệu ứng lắc lắc */
+        @keyframes shakeEffect {
+            0%, 100% { transform: rotate(0deg); }
+            10% { transform: rotate(-10deg); }
+            20% { transform: rotate(10deg); }
+            30% { transform: rotate(-10deg); }
+            40% { transform: rotate(10deg); }
+            50%, 100% { transform: rotate(0deg); } 
+        }
+
+        /* 3. Áp dụng hiệu ứng */
+        .side-btn.gift {
+            animation: bounceEffect 1.5s infinite ease-in-out;
+        }
+
+        .side-btn.line {
+            transform-origin: center center; 
+            animation: shakeEffect 2.5s infinite ease-in-out;
+        }
+
+        /* 1. CSS cho nút Đăng ký */
+        .btn-register {
+            position: relative;
+            overflow: hidden;
+            animation: pulse-glow 2s infinite;
+        }
+        .btn-register::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%);
+            transform: rotate(45deg);
+            animation: shine-sweep 3s infinite;
+        }
+        @keyframes pulse-glow {
+            0% { box-shadow: 0 0 0 0 rgba(255, 204, 0, 0.7); }
+            70% { box-shadow: 0 0 15px 15px rgba(255, 204, 0, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 204, 0, 0); }
+        }
+        @keyframes shine-sweep {
+            0% { left: -100%; top: -100%; }
+            20% { left: 100%; top: 100%; }
+            100% { left: 100%; top: 100%; }
+        }
+
+        /* 2. CSS cho Logo lơ lửng */
+        .logo-floating {
+            animation: float-up-down 4s ease-in-out infinite;
+        }
+        @keyframes float-up-down {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+        }
+         .led-logo-wrapper {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 130px;  /* Chiều rộng tổng thể (bao gồm cả vòng LED) */
+    height: 130px; /* Chiều cao tổng thể */
+    border-radius: 50%;
+    overflow: hidden; /* Cắt bỏ phần ánh sáng thừa ra ngoài hình tròn */
+    padding: 4px; /* Độ dày của vòng LED (Thay đổi số này để vòng dày/mỏng hơn) */
+    
+    /* Tùy chọn: Kết hợp với hiệu ứng bay lơ lửng lúc nãy */
+    animation: float-up-down 4s ease-in-out infinite; 
+}
+
+/* 2. Dải màu LED xoay tròn ở lớp nền */
+.led-logo-wrapper::before {
+    content: '';
+    position: absolute;
+    width: 150%; 
+    height: 150%;
+    /* Các màu sắc của đèn LED (Hồng -> Tím -> Xanh -> Hồng) */
+    background: conic-gradient(
+        from 0deg,
+        #ff00a0,
+        #7a00ff,
+        #00d2ff,
+        #ff00a0
+    );
+    /* Thời gian 1 vòng quay là 2.5 giây */
+    animation: spin-led 2.5s linear infinite; 
+}
+
+/* 3. Lớp chặn ánh sáng ở giữa (Chỉ để hở ra phần viền) */
+.led-logo-wrapper::after {
+    content: '';
+    position: absolute;
+    inset: 4px; /* Bằng đúng với padding ở trên */
+    background-color: #2b1055; /* Màu nền phía sau logo (Màu tím của web bạn) */
+    border-radius: 50%;
+}
+
+/* 4. Hình ảnh Logo hiển thị trên cùng */
+.logo-inner {
+    position: relative;
+    z-index: 10; /* Đẩy logo lên lớp cao nhất để không bị LED che lấp */
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+/* 5. Chuyển động xoay vòng */
+@keyframes spin-led {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+.modal-content {
+   /* Hiệu ứng làm mờ cảnh phía sau (chỉ hỗ trợ trên các trình duyệt mới) */
+    backdrop-filter: blur(8px); 
+    -webkit-backdrop-filter: blur(8px);
+    
+    /* Giữ nguyên các thông số cũ của bạn */
+    padding: 20px;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 350px;
+    text-align: center;
+    position: relative;
+    
+    /* Viền mỏng mờ */
+    border: 1px solid rgba(255, 255, 255, 0.2); 
+}
+/* Ép modal thành nền tối và có độ trong suốt */
+    .modal-content {
+        background-color: rgba(0, 0, 0, 0.85) !important; /* Màu đen, độ trong suốt 85% */
+        border: 1px solid rgba(255, 255, 255, 0.2) !important; /* Viền trắng mờ */
+        color: #fff !important; /* Ép chữ thành màu trắng */
+        box-shadow: 0 0 20px rgba(0,0,0,0.5) !important; /* Đổ bóng cho đẹp */
+    }
+    </style>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Mobile Landing Page</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            color: white;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow-x: hidden;
+            padding-bottom: 40px; 
+            position: relative;
+        }
+
+        /* --- CẤU HÌNH ẢNH NỀN --- */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            /* Thay link ảnh của bạn vào đây */
+            background-image: url('images/fu88 1.png'); 
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: -1; 
+            opacity: 0.8; /* Chỉnh độ mờ tại đây */
+            /* filter: blur(3px); */
+        }
+
+        /* --- Hiệu ứng Chấm Xanh & Ticker --- */
+        .dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background-color: #4caf50; /* Màu xanh lá */
+            border-radius: 50%;
+            margin-right: 6px;
+            box-shadow: 0 0 8px #4caf50; /* Phát sáng nhẹ */
+        }
+
+        .ticker-item {
+            display: inline-flex;
+            align-items: center;
+            margin-right: 40px; /* Khoảng cách giữa các thông báo */
+        }
+
+        /* --- Header Text Chạy --- */
+        .top-marquee {
+            background-color: #ffe600;
+            color: #d10000;
+            padding: 8px 0;
+            font-size: 14px;
+            font-weight: bold;
+            white-space: nowrap;
+            overflow: hidden;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .top-marquee .scroll-content {
+            display: inline-block;
+            animation: scroll-left 20s linear infinite;
+            padding-left: 100%;
+        }
+
+        /* --- Main Content --- */
+        .content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .avatar-placeholder {
+            width: 100px;
+            height: 100px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #ffe600;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+
+        /* --- Khu vực Ảnh Chính (Được làm lại đẹp hơn) --- */
+        .main-showcase {
+            width: 100%;
+            max-width: 320px;
+            background: rgba(0, 0, 0, 0.4); /* Nền đen mờ nhẹ làm nổi ảnh */
+            border: 1px solid rgba(255, 230, 0, 0.3); /* Viền vàng nhạt */
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 25px;
+            backdrop-filter: blur(5px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+        }
+
+        .main-showcase img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        .main-showcase .showcase-text {
+            color: #ffe600;
+            font-size: 15px;
+            font-weight: bold;
+            text-shadow: 1px 1px 3px #000;
+        }
+
+        /* --- Features List --- */
+        .features {
+            display: flex;
+            gap: 15px;
+            font-size: 12px;
+            color: #fff;
+            margin-bottom: 25px;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 8px 15px;
+            border-radius: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .features span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .features span::before {
+            content: "•";
+            color: #4caf50; /* Chấm xanh lá cho danh sách tính năng */
+            font-size: 16px;
+        }
+
+        /* --- Nút CTA Môi Giữa --- */
+        .cta-btn {
+            background: linear-gradient(180deg, #ffe600 0%, #ffaa00 100%);
+            color: #5b109e;
+            text-decoration: none;
+            font-size: 20px;
+            font-weight: 900;
+            padding: 15px 50px;
+            border-radius: 30px;
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+            transition: transform 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .cta-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* --- Side Buttons --- */
+        .side-buttons {
+            position: fixed;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 50;
+        }
+
+        .side-btn {
+            background: linear-gradient(180deg, #4caf50 0%, #2e7d32 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 10px;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            text-decoration: none;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 60px;
+        }
+        .side-btn.gift {
+            background: linear-gradient(180deg, #e91e63 0%, #c2185b 100%);
+        }
+
+        /* --- Footer Marquee --- */
+        .bottom-marquee {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            color: #ffe600;
+            padding: 10px 0;
+            font-size: 14px;
+            white-space: nowrap;
+            overflow: hidden;
+            z-index: 100;
+        }
+        .bottom-marquee .scroll-content {
+            display: inline-block;
+            animation: scroll-left 25s linear infinite;
+            padding-left: 100%;
+        }
+
+        /* --- Pop-up Modal --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: none; 
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+            backdrop-filter: blur(3px);
+        }
+        
+        .modal-content {
+            background: #fff;
+            color: #333;
+            width: 85%;
+            max-width: 350px;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            animation: popIn 0.3s ease-out;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #999;
+            cursor: pointer;
+            border: none;
+            background: none;
+        }
+
+        .modal-action-btn {
+            background: #e91e63;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            width: 100%;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        /* --- Animations --- */
+        @keyframes scroll-left {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(-100%, 0); }
+        }
+
+        @keyframes popIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="top-marquee">
+        <div class="scroll-content">
+            <span class="ticker-item"><span class="dot"></span>🎁 今日註冊即享專屬優惠！</span> 
+        </div>
+    </div>
+
+    <main class="content">
+        <div class="led-logo-wrapper">
+           <img src="images/logo.png" alt="Logo" class="logo-inner" style="object-fit: cover;">
+       </div>
+        
+        <div class="main-showcase">
+            <img src="images/banner 2.jpg" alt="banner">
+            <div class="showcase-text">🔥 歡迎參加我們的特別活動！</div>
+        </div>
+
+        <div class="features">
+            <span>正版授權</span>
+            <span>SSL安全防護</span>
+            <span>24/7客服</span>
+        </div>
+
+        <a href="https://ry6668.com/ag/metameta/auth/register" class="cta-btn btn-register">🚀 立即註冊</a>
+    </main>
+
+   <div class="side-buttons">
+    <button class="side-btn gift" id="openGiftModal">
+        <img src="images/sdasdas-removebg-preview.png" alt="Gift" style="width: 28px; height: 28px; object-fit: contain; margin-bottom: 4px;">
+        <span>優惠</span>
+    </button>
+    
+    <a href="https://line.me/R/ti/p/@398rsfwb?oat_content=url&ts=04201536" class="side-btn line" target="_blank">
+        <img src="images/line-removebg-preview.png" alt="Line" style="width: 28px; height: 28px; object-fit: contain; margin-bottom: 4px;">
+        <span>聯絡</span>
+    </a>
+    </div>
+
+    <div class="bottom-marquee">
+        <div class="scroll-content">
+            <span class="ticker-item"><span class="dot"></span>m6***37剛成功註冊</span>
+            <span class="ticker-item"><span class="dot"></span>t4***118剛領取優惠</span>
+            <span class="ticker-item"><span class="dot"></span>m6***357剛成功註冊</span>
+            <span class="ticker-item"><span class="dot"></span>m8***91剛領取獎勵</span>
+            <span class="ticker-item"><span class="dot"></span>ch***9剛領取獎勵</span>
+            <span class="ticker-item"><span class="dot"></span>yu***n剛成功註冊</span>
+            <span class="ticker-item"><span class="dot"></span>85***o剛領取獎勵</span>
+            <span class="ticker-item"><span class="dot"></span>95***n剛成功註冊</span>
+            <span class="ticker-item"><span class="dot"></span>25***9剛領取獎勵</span>
+            <span class="ticker-item"><span class="dot"></span>88***n剛成功註冊</span>
+            <span class="ticker-item"><span class="dot"></span>88**yo剛領取獎勵</span>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="giftModalOverlay">
+    <div class="modal-content">
+        <button class="close-btn" id="closeGiftModal">&times;</button>
+        
+        <div style="width: 100%; margin-bottom: 15px; text-align: center;"> <img src="images/META-A0003_改1.jpg" alt="專屬好禮" style="max-width: 100%; height: 150px; object-fit: contain; border-radius: 10px;">
+        </div>
+        <div style="font-size: 18px; font-weight: bold; margin-bottom: 10px; color: #ffcc00;">專屬好禮</div>
+
+        <p style="font-size: 14px; color: #ddd;">恭喜獲得專屬禮包，點擊下方按鈕立即領取！</p>
+        <button class="modal-action-btn" onclick="window.location.href='https://ry6668.com/ag/metameta/auth/register'">立即領取</button>
+     </div>
+    </div>
+
+    <script>
+        const modalOverlay = document.getElementById('giftModalOverlay');
+        const openBtn = document.getElementById('openGiftModal');
+        const closeBtn = document.getElementById('closeGiftModal');
+
+        openBtn.addEventListener('click', () => {
+            modalOverlay.style.display = 'flex';
+        });
+
+        closeBtn.addEventListener('click', () => {
+            modalOverlay.style.display = 'none';
+        });
+
+        modalOverlay.addEventListener('click', (e) => {
+            if (e.target === modalOverlay) {
+                modalOverlay.style.display = 'none';
+            }
+        });
+    </script>
+
+</body>
+</html>
